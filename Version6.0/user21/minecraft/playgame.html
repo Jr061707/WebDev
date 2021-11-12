@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>Snake Game</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="font/Rimouski.css">
+    <link rel="stylesheet" href="style.css">
+    <!-- Bootstrap meta data -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="SHS WebDev Bootstrap sample">
+
+    <!-- CSS -->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Animate -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <!-- Custom -->
+    <link rel="stylesheet" href="CSS/style.css">
+
+    <!-- JavaScript -->
+    <!-- These are needed to get the responsive menu to work -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style type="text/css">
+    
+        menu {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            text-align: center;
+
+            background-color: teal;
+
+
+        }
+
+        canvas {
+            border: 7px dashed #4A4747
+        }
+
+        h1 {
+            font-size: 35px;
+            text-align: center;
+            margin: 0;
+            padding-bottom: 25px;
+            text-decoration: dotted;
+            font-family: Geneva;
+            color: #a50505;
+        }
+
+        footer{
+
+bottom: 1000px;
+
+
+
+
+
+        }
+    </style>
+    <!---------------------------------- Begin the nav-bar ------------->
+    <menu>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <a href="http://shakonet.isd720.com" class="navbar-brand">Jacks Game reviews</a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav">
+                    <!--↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ Edit These Items in your Menu ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓-->
+                    <a href="index.html" class="nav-item nav-link">Home</a>
+                    <a href="Top10.html" class="nav-item nav-link active">Top 5</a>
+                    <a href="minecraft.html" class="nav-item nav-link">My Number One Game Ever</a>
+                    <a href="playgame.html" class="nav-item nav-link">play a game</a>
+                    <!--↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ Edit These Items in your Menu ↑↑↑↑↑↑↑↑↑↑↑↑↑↑-->
+                </div>
+                <div class="navbar-nav ml-auto">
+                    <a href="#" class="nav-item nav-link disabled">Login</a>
+                </div>
+            </div>
+            <div class="menu">
+                <php </div>
+
+        </nav>
+    </menu>
+
+
+
+
+    <!---------------------------------- End the nav-bar ------------------------------------->
+
+    <div id="built-in-functions">
+        <!-- ALERT-->
+        <script>
+            alert('u are abut to become a epic gamer');
+        </script>
+
+        <script type="text/javascript">
+            function play_game() {
+                var level = 160; // Game level, by decreasing will speed up
+                var rect_w = 45; // Width
+                var rect_h = 30; // Height
+                var inc_score = 50; // Score
+                var snake_image = "#3E486"; // Snake Color
+                var ctx; // Canvas attributes
+                var tn = []; // temp directions storage
+                var x_dir = [-1, 0, 1, 0]; // position adjusments
+                var y_dir = [0, -1, 0, 1]; // position adjusments
+                var queue = [];
+                var frog = 1; // defalut food
+                var map = [];
+                var MR = Math.random;
+                var X = 5 + (MR() * (rect_w - 10)) | 0; // Calculate positions
+                var Y = 5 + (MR() * (rect_h - 10)) | 0; // Calculate positions
+                var direction = MR() * 3 | 0;
+                var interval = 0;
+                var score = 0;
+                var sum = 0, easy = 0;
+                var i, dir;
+                // getting play area 
+                var c = document.getElementById('playArea');
+                ctx = c.getContext('2d');
+                // Map positions
+                for (i = 0; i < rect_w; i++) {
+                    map[i] = [];
+                }
+                // random placement of snake food
+                function random_snake() {
+                    var x, y;
+                    do {
+                        x = MR() * rect_w | 0;
+                        y = MR() * rect_h | 0;
+                    }
+                    while (map[x][y]);
+                    map[x][y] = 1;
+                    ctx.fillStyle = snake_image;
+                    ctx.strokeRect(x * 10 + 1, y * 10 + 1, 8, 8);
+                }
+                // Default somewhere placement
+                random_snake();
+                function set_game_speed() {
+                    if (easy) {
+                        X = (X + rect_w) % rect_w;
+                        Y = (Y + rect_h) % rect_h;
+                    }
+                    --inc_score;
+                    if (tn.length) {
+                        dir = tn.pop();
+                        if ((dir % 2) !== (direction % 2)) {
+                            direction = dir;
+                        }
+                    }
+                    if ((easy || (0 <= X && 0 <= Y && X < rect_w && Y < rect_h)) && 2 !== map[X][Y]) {
+                        if (1 === map[X][Y]) {
+                            score += Math.max(5, inc_score);
+                            inc_score = 50;
+                            random_snake();
+                            frog++;
+                        }
+                        //ctx.fillStyle("#ffffff");
+                        ctx.fillRect(X * 10, Y * 10, 9, 9);
+                        map[X][Y] = 2;
+                        queue.unshift([X, Y]);
+                        X += x_dir[direction];
+                        Y += y_dir[direction];
+                        if (frog < queue.length) {
+                            dir = queue.pop()
+                            map[dir[0]][dir[1]] = 0;
+                            ctx.clearRect(dir[0] * 10, dir[1] * 10, 10, 10);
+                        }
+                    }
+                    else if (!tn.length) {
+                        var show_score = document.getElementById("show");
+                        show_score.innerHTML = "You lose!<br /> <u>Your Score:</u> <b>" + score + "</b><br><br> Want to try again?<br><br><input type='button' value='Play Again' onclick='window.location.reload();' />";
+                        document.getElementById("playArea").style.display = 'none';
+                        window.clearInterval(interval);
+                    }
+                }
+                interval = window.setInterval(set_game_speed, level);
+                document.onkeydown = function (e) {
+                    var code = e.keyCode - 37;
+                    if (0 <= code && code < 4 && code !== tn[0]) {
+                        tn.unshift(code);
+                    }
+                    else if (-5 == code) {
+                        if (interval) {
+                            window.clearInterval(interval);
+                            interval = 0;
+                        }
+                        else {
+                            interval = window.setInterval(set_game_speed, 60);
+                        }
+                    }
+                    else {
+                        dir = sum + code;
+                        if (dir == 44 || dir == 94 || dir == 126 || dir == 171) {
+                            sum += code
+                        } else if (dir === 218) easy = 1;
+                    }
+                }
+            }
+        </script>
+</head>
+
+<body onload="play_game()">
+    <h1>Play Snake Game</h1>
+
+    <div id="show"></div>
+    <canvas id="playArea" width="450" height="300">Sorry your browser does not support HTML5. Try using like Chrome or
+        Firefox.</canvas>
+ 
+
+        <footer class="bg-dark text-center text-white">
+            <!-- Grid container -->
+            <div class="container p-4 pb-0">
+                <!-- Section: Social media -->
+                <section class="mb-4">
+                    <!-- Facebook -->
+                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button" class="fa-brands fa-snapchat">
+                        <i class="fa fa-snapchat-ghost" aria-hidden="true"></i></a>
+    
+                    
+                        
+                        </a>
+    
+                    <!-- Google -->
+                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
+                        <i class="fa fa-twitter" aria-hidden="true"></i></a>
+                        <a href="https://en.wikipedia.org/wiki/Minecraft" target="_blank">
+                    <!-- Instagram -->
+                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
+                        <i class="fa fa-instagram" aria-hidden="true"></i></a>
+    
+                    <!-- Linkedin -->
+                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
+                        <i class="fa fa-wikipedia-w" aria-hidden="true"></i></a>
+                        <a href="https://en.wikipedia.org/wiki/Minecraft" target="_blank">
+                    <!-- Github -->
+                    <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
+                        <i class="fa fa-reddit-alien" aria-hidden="true"></i></a>
+                </section>
+                <!-- Section: Social media -->
+            </div>
+            <!-- Grid container -->
+    
+            <!-- Copyright -->
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                © 2020 Copyright
+           
+            </div>
+            <!-- Copyright -->
+        </footer>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+    
+
+
+
+
+</body>
+
+</html>
